@@ -1,0 +1,183 @@
+import sys
+import random
+import time
+
+player_name = ""
+has_locket = False
+knows_salt_weakness = False
+
+def slow_print(text):
+    print(text)
+    time.sleep(0.6) # Slightly faster for better gameplay flow
+
+def death_scene(reason):
+    print("\n--- Game Over ---")
+    print(reason)
+    sys.exit()
+
+def good_ending(reason):
+    print("\n--- Ending: The Road Alone ---")
+    print(reason)
+    sys.exit()
+
+def start_game():
+    global player_name
+    print("The Descent")
+    player_name = input("Enter your name: ").strip()
+    
+    slow_print("It's been a full year since anyone in the family heard from Grandpa.")
+    slow_print("Today though, he invite me over, so of course I came, out of pure goodwill.")
+    slow_print("The house looks older than I remember. Darker.")
+    
+    choice = input("1. Knock on the door. 2. Try the doorknob: ").strip()
+    
+    if choice == "1" or choice == "2":
+        slow_print("Before I can even make a sound, the door clicks and swings inward.")
+        slow_print("Grandpa stands in the dim hallway, smiling. But his eyes are completely bloodshot.")
+        slow_print("'Oh it's you. Uh... what's your name again?' He asks")
+        slow_print(f"'It's {player_name}, Grandpa.' You say with an eye roll. The family was right. Grandpa's gone senile.")
+        living_room()
+    else:
+        death_scene("I hesitated too long on the porch. Strange shadows pulled me off the steps before I could even move.")
+
+def living_room():
+    slow_print("Grandpa immediately shuffles off into the kitchen to make tea, leaving me alone.")
+    slow_print("The house smells like old paper and copper. I have a terrible feeling in my stomach.")
+    
+    print("What do I want to do?")
+    choice = input("1. Explore the house. 2. Sit on the couch and wait. 3. Go upstairs to sleep: ").strip()
+    
+    if choice == "1":
+        explore_hallway()
+    elif choice == "2":
+        slow_print("I sit on the dusty couch. The ticking of the clock grows deafening...")
+        forced_basement()
+    elif choice == "3":
+        dream_world() 
+    else:
+        death_scene("I couldn't make up my mind. The shadows in the corner of the room crept up and swallowed me whole.")
+
+def explore_hallway():
+    print("I stand in the dim hallway. Two things catch my eye.")
+    choice = input("1. Check the clock. 2. Sneak into Grandpa's bedroom: ").strip()
+    
+    if choice == "1":
+        random_hours = random.randint(0, 23)
+        random_mins = random.randint(10, 59)
+        print(f"I look at the clock. The numbers spin wildly before stopping at {random_hours}:{random_mins}.")
+        print("A second later, they spin again. Time doesn't seem to work here.")
+        slow_print("With chills down my spine, I head toward Grandpa's bedroom instead.")
+        grandpas_room()
+    elif choice == "2":
+        grandpas_room()
+    else:
+        death_scene("I wandered into a pitch-black closet by mistake, and the door locked behind me forever.")
+
+def grandpas_room():
+    global has_locket, knows_salt_weakness
+    slow_print("Grandpa's room is freezing. The walls are covered in strange, carved symbols.")
+    print("On his nightstand, I see an old brass locket and a dusty handwritten journal.")
+    
+    choice = input("1. Take the locket. 2. Read the journal. 3. Take and read both: ").strip()
+    
+    if choice == "1":
+        print("I slip the heavy brass locket into my pocket. It feels strangely warm.")
+        has_locket = True
+    elif choice == "2":
+        print("I open the journal. It's filled with mad ramblings about some entity.")
+        print("One line is underlined in red: 'Salt stuns the beast.'")
+        knows_salt_weakness = True
+    elif choice == "3":
+        print("I grab the warm brass locket and quickly flip through the journal.")
+        print("I read a panicked note: 'Salt stuns the beast.'")
+        has_locket = True
+        knows_salt_weakness = True
+    else:
+        death_scene("I hesitate too long and Grandpa caught me.")
+    
+    slow_print("I hear heavy footsteps approaching. I sprint back to the living room just in time.")
+    forced_basement()
+
+def forced_basement():
+    slow_print("Grandpa returns from the kitchen, but he isn't carrying tea.")
+    slow_print("His eyes are wide, glassy, and unblinking. He grabs my wrist with terrifying strength.")
+    slow_print("'It is time,' he chants. 'The blood of the lineage.'")
+    slow_print("He drags me down the creaking wooden stairs into the pitch-black basement.")
+    basement_climax()
+
+def basement_climax():
+    slow_print("In the center of the basement, a tear in reality opens. Purple light spills out.")
+    slow_print("A towering mass of shadows and tentacles begins to crawl into the room.")
+    slow_print("Grandpa drops to his knees, praying to it. My mind screams to react.")
+    
+    print("What do I do?!")
+    print("1. Run for the stairs.")
+    if has_locket:
+        print("2. Throw Grandpa's locket at it.")
+    if knows_salt_weakness:
+        print("3. Grab the rock salt from the basement floor and throw it.")
+        
+    choice = input("Your choice: ").strip()
+    
+    if choice == "1":
+        death_scene("I turn and sprint up the stairs, but tentacles lash out, dragging me backward into the void.")
+        
+    elif choice == "2" and has_locket:
+        slow_print("I hurl the brass locket into the rift.")
+        slow_print("The entity stops, its many eyes tracking the locket as if hypnotized by it.")
+        slow_print("Using the distraction, I scramble up the stairs and burst out of the house, leaving Grandpa behind.")
+        print("Ending: Solo Survivor")
+        print("I escaped with my life, but the guilt of leaving Grandpa will haunt me forever.")
+        sys.exit()
+        
+    elif choice == "3" and knows_salt_weakness:
+        slow_print("Remembering the journal, I dive for a bag of winter melting salt in the corner.")
+        slow_print("I tear it open and hurl a handful directly into the shadow mass.")
+        slow_print("The entity shrieks—a sound that shatters the basement windows. It boils and dissolves.")
+        slow_print(f"The grip on Grandpa's mind snaps. He looks at me, terrified but sane. 'Thank you, {player_name}.'")
+        print("Ending: Heroes Escape")
+        print("I destroyed the entity and saved my grandfather. The nightmare is over.")
+        sys.exit()
+        
+    else:
+        death_scene("In my panic, I froze. The entity consumed the entire room, and everything went black.")
+
+def dream_world():
+    slow_print("Too exhausted to think, I find the guest bed and collapse.")
+    slow_print("I drift into a deep, heavy sleep, but I don't stay in the bedroom.")
+    slow_print("I wake up standing in a strange, shifting landscape of black sand. Strange buildings loom in the distance.")
+    
+    choice = input("1. Try to find an exit. 2. Accept your fate: ").strip()
+    if choice == "1":
+        print("I tried to find something I could use to escape, but only found myself sinking into the sand. After I was about knee-high, I stopped moving.")
+        
+        choice = input("1. Look around. 2. Give up: ").strip()
+        if choice == "1":
+            print("I find a tree. Its branches are just low enough for me to reach from the sand, but I'd need to walk over to it.")
+            
+            choice = input("1. Walk over to the tree. 2. Keep looking: ").strip()
+            if choice == "2":
+                print("I keep looking, and find a platform I can climb on.")
+                print("As I pull myself onto it, the black sand dissolves. I open my eyes and I'm standing outside on Grandpa's porch. The air is freezing.")
+                
+                choice = input("1. Try to go back inside. 2. Run down the dark road: ").strip()
+                if choice == "1":
+                    print("I turn around to grab the doorknob, but it's completely gone. There's only a solid, unbroken wall where the door used to be. The house has locked me out.")
+                    print("With no other choice, I turn toward the dark road and start walking.")
+                    good_ending("I am forced to walk the frozen, dark streets alone forever.")
+                elif choice == "2":
+                    print("I don't even look back. I turn toward the dark road and sprint into the night.")
+                    good_ending("I run down the endless dark road, leaving my past and my home behind forever.")
+                else:
+                    death_scene("The entity caught me outside the house.")
+                    
+            elif choice == "1":
+                death_scene("Sunk completely into the heavy black sand.")
+            else:
+                death_scene("The sulfur suffocated me.")
+        else:
+            death_scene("The hands dragged me under.")
+    else:
+        death_scene("The hands dragged me under.")
+
+start_game()
